@@ -1,0 +1,72 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+/*  
+    ************************************************************
+    ************************************************************
+    **************** Light Theme Custom Style ******************
+    ************************************************************
+    ************************************************************
+*/
+
+.fi-topbar:not(.dark *),.fi-sidebar:not(.dark *),.fi-sidebar-nav:not(.dark *),.fi-sidebar-header:not(.dark *) {
+    --tw-border-opacity: 1;
+    background-color: #f8f7f7 !important;
+}
+
+.dark\:bg-gray-900:not(.dark *) {
+    background-color: #ffffff !important;
+
+}
+
+.fi-layout:not(.dark *){
+    background-color: #f0f0f0;
+}
+
+.fi-sidebar-item-active:not(.dark *) > .fi-sidebar-item-button  {
+    background-color: #f6d076 !important;
+}
+
+.fi-sidebar-item-icon::not(.dark *), .fi-sidebar-item-label::not(.dark *), .fi-sidebar-group-label::not(.dark *) {
+    color: #000000 !important;
+}
+
+/*  
+    ************************************************************
+    ************************************************************
+    ***************** Dark Theme Custom Style ******************
+    ************************************************************
+    ************************************************************
+*/
+
+.fi-topbar:is(.dark *),.fi-sidebar:is(.dark *),.fi-sidebar-nav:is(.dark *),.fi-sidebar-header:is(.dark *) {
+    --tw-border-opacity: 1;
+    background-color: #0d0b00 !important;
+}
+
+.dark\:bg-gray-900:is(.dark *){
+    background-color: #0d0b00 !important;
+}
+
+.fi-layout:is(.dark *){
+    background-color: #121308;
+}
+
+.fi-sidebar-item-active:is(.dark *) > .fi-sidebar-item-button  {
+    background-color: #322b01 !important;
+}
+
+.fi-sidebar-item-icon::is(.dark *), .fi-sidebar-item-label::is(.dark *), .fi-sidebar-group-label::is(.dark *) {
+    color: #ffffff !important;
+}
+/*  
+    ************************************************************
+    ************************************************************
+    *************** Default Theme Custom Style *****************
+    ************************************************************
+    ************************************************************
+*/
+
+
+

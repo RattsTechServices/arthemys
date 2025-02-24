@@ -1,0 +1,61 @@
+<IfModule mod_rewrite.c>
+    <Files .env>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <Files .env.example>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <Files artisan>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <Files composer.*>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <Files package.*>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <Files vite.config.js>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <Files README.md>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    <IfModule mod_security.c> 
+        SecRuleRemoveById 400011 
+        SecRuleRemoveById 400012 
+    </IfModule>
+
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
