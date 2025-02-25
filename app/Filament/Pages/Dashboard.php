@@ -35,18 +35,18 @@ class Dashboard extends \Filament\Pages\Dashboard
     {
         return [
             Action::make('configs')
-                ->label('Configurations')
+                ->label(__('manager.pages.dashboard.actions.label.configurations'))
                 ->icon('heroicon-c-cog')
                 ->fillForm(SystemConfigs::first()->toARray())
                 ->form([
                     Group::make([
                         TextInput::make('title')
-                            ->label('System title')
-                            ->placeholder('Default system title')
+                            ->label(__('manager.pages.dashboard.actions.form.input.title'))
+                            ->placeholder(__('manager.pages.dashboard.actions.form.placeholder.title'))
                             ->columnSpanFull(),
                         Textarea::make('description')
-                            ->label('System description')
-                            ->placeholder('Default system description')
+                            ->label(__('manager.pages.dashboard.actions.form.input.description'))
+                            ->placeholder(__('manager.pages.dashboard.actions.form.placeholder.description'))
                             ->columnSpanFull(),
                         FileUpload::make('logo_light')
                             ->disk('public')
@@ -56,7 +56,7 @@ class Dashboard extends \Filament\Pages\Dashboard
                             })
                             ->image()
                             ->imageEditor()
-                            ->label('Default application logo (light)'),
+                            ->label(__('manager.pages.dashboard.actions.form.input.logo_light')),
                         FileUpload::make('logo_dark')
                             ->disk('public')
                             ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
@@ -65,7 +65,7 @@ class Dashboard extends \Filament\Pages\Dashboard
                             })
                             ->image()
                             ->imageEditor()
-                            ->label('Default application logo (dark)'),
+                            ->label(__('manager.pages.dashboard.actions.form.input.logo_dark')),
                         FileUpload::make('favicon')
                             ->disk('public')
                             ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
@@ -74,10 +74,10 @@ class Dashboard extends \Filament\Pages\Dashboard
                             })
                             ->image()
                             ->imageEditor()
-                            ->label('Default application favicon'),
+                            ->label(__('manager.pages.dashboard.actions.form.input.favicon')),
                         Group::make([
                             Select::make('ia_detect_object_driver')
-                                ->label('Selecione o driver de Detecção de Rostos (IA)')
+                                ->label(__('manager.pages.dashboard.actions.form.input.ia_detect_object_driver'))
                                 ->options(DriverControl::list())
                                 ->columnSpanFull()
                         ])

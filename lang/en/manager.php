@@ -2,7 +2,33 @@
 // lang/en/manager.php
 
 return [
-
+    'pages' => [
+        'dashboard' => [
+            'actions' => [
+                'label' => [
+                    'configurations' => 'Configurations'
+                ],
+                'form' => [
+                    'input' => [
+                        'title' => 'Title',
+                        'description' => 'Description',
+                        'logo_light' => 'Logo light',
+                        'logo_dark' => 'Logo dark',
+                        'favicon' => 'Favicon',
+                        'ia_detect_object_driver' => 'Select IA detect faces driver'
+                    ],
+                    'placeholder' => [
+                        'title' => 'Default system title',
+                        'description' => 'Default system description',
+                        'logo_light' => 'Default application logo (light)',
+                        'logo_dark' => 'Default application logo (dark)',
+                        'favicon' => 'Default application favicon',
+                        'ia_detect_object_driver' => 'Select IA detect faces driver'
+                    ]
+                ],
+            ]
+        ]
+    ],
     /******** Menu Itens Translactions ***********/
     'menu_applications'         => [
         "single"                    => "Application",
@@ -310,5 +336,4 @@ return [
             ]
         ]
     ]
-
 ];
