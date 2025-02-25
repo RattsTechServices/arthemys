@@ -32,4 +32,22 @@ class UtilsController extends Controller
 
         return $controllers;
     }
+
+    public static function convertBytes($value, $unit = 'B')
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+        if (is_numeric($value)) {
+            // Convert bytes para unidade desejada
+            $power = array_search(strtoupper($unit), $units);
+            return round($value / pow(1024, $power), 2) . " " . $unit;
+        } elseif (preg_match('/^(\d+(?:\.\d+)?)\s*(B|KB|MB|GB|TB|PB)$/i', $value, $matches)) {
+            // Convert unidade para bytes
+            $number = (float) $matches[1];
+            $power = array_search(strtoupper($matches[2]), $units);
+            return (int) ($number * pow(1024, $power));
+        }
+
+        return null; // Retorna null caso a entrada seja inválida
+    }
 }

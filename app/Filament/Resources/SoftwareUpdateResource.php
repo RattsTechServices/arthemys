@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SoftwareUpdateResource\Pages;
 use App\Filament\Resources\SoftwareUpdateResource\RelationManagers;
+use App\Http\Controllers\UtilsController;
 use App\Models\SoftwareUpdate;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -31,25 +32,60 @@ class SoftwareUpdateResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $lastReliase = SoftwareUpdate::orderBy('id', 'desc')->first();
+
         return $table
+            ->defaultSort('id', 'desc')
             ->columns([
                 TextColumn::make('id')
                     ->label(__('manager.software_update_resources.table.id'))
                     ->sortable(),
                 TextColumn::make('version')
                     ->label(__('manager.software_update_resources.table.version'))
+                    ->color(function ($record) use ($lastReliase) {
+                        if ($record->version == $lastReliase->version) {
+                            return 'primary';
+                        } else {
+                            return 'gray';
+                        }
+                    })
+                    ->badge()
                     ->alignCenter()
                     ->sortable(),
                 TextColumn::make('repository')
                     ->label(__('manager.software_update_resources.table.repository'))
+                    ->icon('heroicon-c-share')
+                    ->color(function ($record) use ($lastReliase) {
+                        if ($record->version == $lastReliase->version) {
+                            return 'primary';
+                        } else {
+                            return 'gray';
+                        }
+                    })
+                    ->badge()
                     ->alignCenter()
                     ->sortable(),
                 TextColumn::make('artefact')
                     ->label(__('manager.software_update_resources.table.artefact'))
+                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->color(function ($record) use ($lastReliase) {
+                        if ($record->version == $lastReliase->version) {
+                            return 'primary';
+                        } else {
+                            return 'gray';
+                        }
+                    })
+                    ->url(function ($record) {
+                        return $record->artefact;
+                    })
+                    ->openUrlInNewTab()
+                    ->limit(18)
                     ->alignCenter()
                     ->sortable(),
                 TextColumn::make('size')
                     ->label(__('manager.software_update_resources.table.size'))
+                    ->icon('heroicon-c-cube')
+                    ->getStateUsing(fn($record) => UtilsController::convertBytes($record->size, 'MB'))
                     ->alignCenter()
                     ->sortable(),
                 TextColumn::make('created_at')
