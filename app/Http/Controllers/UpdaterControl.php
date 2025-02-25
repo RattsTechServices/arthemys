@@ -11,7 +11,8 @@ use ZipArchive;
 class UpdaterControl extends Controller
 {
 
-    public static function getRepoDetails($repoUrl){
+    public static function getRepoDetails($repoUrl)
+    {
         $response = Http::withHeaders(['User-Agent' => 'Laravel-Updater'])->get($repoUrl);
         if ($response->successful()) {
             return $response->json();
@@ -47,8 +48,21 @@ class UpdaterControl extends Controller
         if ($zip->open($zipPath) === true) {
             $zip->extractTo($extractPath);
             $zip->close();
+
+            // Identificar a pasta raiz dentro do ZIP
+            $extractedFolders = File::directories($extractPath);
+            if (!empty($extractedFolders)) {
+                $mainFolder = $extractedFolders[0];
+                foreach (File::allFiles($mainFolder, true) as $file) {
+                    $relativePath = str_replace($mainFolder, '', $file->getPathname());
+                    if(File::exists($extractPath . $relativePath)){
+                        File::move($file->getPathname(), $extractPath . $relativePath);
+                    }
+                }
+                File::deleteDirectory($mainFolder);
+            }
         } else {
-            return throw new Exception("Error to extract .zip");
+            return throw new Exception("Error to extract files from .zip to .updater");
         }
     }
 
