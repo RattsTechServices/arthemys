@@ -24,7 +24,7 @@ class UpdateSoftware extends Command
         $this->repoUrl  = "{$ARTHEMYS_UPDATER_SOURCE}/repos/{$ARTHEMYS_UPDATER_PROVIDER}/releases";
 
         $details = UpdaterControl::getRepoDetails($this->repoUrl);
-        file_put_contents(base_path('demo.json'), json_encode($details));
+        
         $version = $this->argument('version') ?? UpdaterControl::getLatestVersion($this->repoUrl);
         if (!$version) {
             $this->error('Não foi possível obter a versão mais recente.');
