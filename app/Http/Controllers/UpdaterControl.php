@@ -49,15 +49,16 @@ class UpdaterControl extends Controller
             $zip->extractTo($extractPath);
             $zip->close();
 
+            # /Users/victorratts/Documents/Projects/php/Laravel/arthemys-project/.updater/RattsTechServices-arthemys-680b598/.DS_Store
+            # /Users/victorratts/Documents/Projects/php/Laravel/arthemys-project/.updater/.DS_Store
             // Identificar a pasta raiz dentro do ZIP
             $extractedFolders = File::directories($extractPath);
+            
             if (!empty($extractedFolders)) {
                 $mainFolder = $extractedFolders[0];
                 foreach (File::allFiles($mainFolder, true) as $file) {
                     $relativePath = str_replace($mainFolder, '', $file->getPathname());
-                    if(File::exists($extractPath . $relativePath)){
-                        File::move($file->getPathname(), $extractPath . $relativePath);
-                    }
+                    File::move($file->getPathname(), $extractPath . $relativePath);
                 }
                 File::deleteDirectory($mainFolder);
             }
