@@ -40,7 +40,7 @@ class UpdateSoftware extends Command
         $this->info("Baixando versão $version...");
         $zipPath = storage_path("update-$version.zip");
         File::put($zipPath, Http::withHeaders(['User-Agent' => 'Arthemys-Updater'])->get($zipUrl)->body());
-
+        $size = File::size($zipPath);
         $this->info("Extraindo arquivos...");
         $extractPath = base_path('.updater');
         if (!File::exists($extractPath)) {
@@ -48,7 +48,7 @@ class UpdateSoftware extends Command
         }
 
         $this->info("Atualizando arquivos...");
-        
+
         UpdaterControl::extractZip($zipPath, $extractPath);
         UpdaterControl::copyFiles($extractPath);
         File::delete($zipPath);
@@ -56,7 +56,7 @@ class UpdateSoftware extends Command
         SoftwareUpdate::create([
             'version'       => $version,
             'reliase'       => $details[0]['name'],
-            'size'          => $details[0]['assets'][0]['size'],
+            'size'          => $size,
             'repository'    => $ARTHEMYS_UPDATER_PROVIDER,
             'artefact'      => $zipUrl,
             'extra'         => $details
