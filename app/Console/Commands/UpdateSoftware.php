@@ -47,11 +47,10 @@ class UpdateSoftware extends Command
             File::makeDirectory($extractPath, 0755, true);
         }
 
-        UpdaterControl::extractZip($zipPath, $extractPath);
-
         $this->info("Atualizando arquivos...");
-        UpdaterControl::copyFiles($extractPath);
         
+        UpdaterControl::extractZip($zipPath, $extractPath);
+        UpdaterControl::copyFiles($extractPath);
         File::delete($zipPath);
 
         SoftwareUpdate::create([

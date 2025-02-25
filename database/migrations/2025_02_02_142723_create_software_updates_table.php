@@ -24,12 +24,12 @@ return new class extends Migration
         });
 
         SoftwareUpdate::create([
-            'version' => '0.0.1',
+            'version' => '0.0.2',
             'reliase' => 'stable',
             'repository' => 'RattsTechServices/arthemys',
             'artefact' => '#',
             'size' => 1024000,
-            'extra' => ["branch" => 'main']
+            'extra' => ["branch" => "main"]
         ]);
     }
 
