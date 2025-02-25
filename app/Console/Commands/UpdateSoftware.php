@@ -53,7 +53,7 @@ class UpdateSoftware extends Command
         UpdaterControl::copyFiles($extractPath);
         File::delete($zipPath);
 
-        SoftwareUpdate::createOrUpdate(
+        SoftwareUpdate::UpdateOrCreate(
             [
                 'version'       => $version,
             ],

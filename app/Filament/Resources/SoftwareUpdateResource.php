@@ -86,6 +86,13 @@ class SoftwareUpdateResource extends Resource
                     ->label(__('manager.software_update_resources.table.size'))
                     ->icon('heroicon-c-cube')
                     ->getStateUsing(fn($record) => UtilsController::convertBytes($record->size, 'MB'))
+                    ->color(function ($record) use ($lastReliase) {
+                        if ($record->version == $lastReliase->version) {
+                            return 'primary';
+                        } else {
+                            return 'gray';
+                        }
+                    })
                     ->alignCenter()
                     ->sortable(),
                 TextColumn::make('created_at')
