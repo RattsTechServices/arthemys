@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use ZipArchive;
 
 class UpdaterControl extends Controller
@@ -58,7 +59,9 @@ class UpdaterControl extends Controller
                 $mainFolder = $extractedFolders[0];
                 foreach (File::allFiles($mainFolder, true) as $file) {
                     $relativePath = str_replace($mainFolder, '', $file->getPathname());
-                    File::move($file->getPathname(), $extractPath . $relativePath);
+                    if(!Str::contains($relativePath, '.DS_Store')){
+                        File::move($file->getPathname(), $extractPath . $relativePath);
+                    }
                 }
                 File::deleteDirectory($mainFolder);
             }
