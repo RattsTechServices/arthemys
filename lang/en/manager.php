@@ -138,10 +138,8 @@ return [
             'artefact' => 'Artefact',
             'size' => 'Size',
             'created_at' => 'Created at',
-            'updated_at' => 'Updated at',
             '_masks' => [
-                'created_at' => 'Y-m-d H:i',
-                'updated_at' => 'Y-m-d H:i'
+                'created_at' => 'Y-m-d H:i'
             ]
         ]
     ],
@@ -270,43 +268,6 @@ return [
             'input' => [
                 'client_application_id' => 'Client application',
                 'collected' => 'Collected Data'
-            ]
-        ]
-    ],
-    'client_application_resource' => [
-        'table' => [
-            'id' => '#ID',
-            'logo_light' => 'Default logo',
-            'title' => 'Title or label',
-            'slug_title' => 'Slug title',
-            'user' => 'User',
-            'created_at' => 'Created at',
-            '_mask' => [
-                'created_at' => 'Y-m-d H:i'
-            ]
-        ],
-        'form' => [
-            'input' => [
-                'user_id' => 'User',
-                'title' => 'Title or label',
-                'slug_title' => 'Slug',
-                'description' => 'Description',
-                'callback' => 'Callback url',
-                'url' => 'URL',
-                'webhookie' => 'Webhookie',
-                'status' => 'Status',
-                'condition' => 'Condition'
-            ],
-            'placeholder' => [
-                'user_id' => 'Select user',
-                'title' => 'Title or label from application',
-                'slug_title' => 'no-use-spaces',
-                'description' => 'Put a short description',
-                'callback' => 'Callback url',
-                'url' => 'https://domain.com',
-                'webhookie' => 'https://domain.com/api/webhookie',
-                'status' => 'Application status',
-                'condition' => 'Application condition'
             ]
         ]
     ]
