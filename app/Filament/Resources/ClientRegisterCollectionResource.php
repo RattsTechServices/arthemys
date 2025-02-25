@@ -39,7 +39,7 @@ class ClientRegisterCollectionResource extends Resource
         return $form
             ->schema([
                 Select::make('client_application_id')
-                    ->label('Selecionar aplicação')
+                    ->label(__('manager.client_register_collection_resource.form.input.client_application_id'))
                     ->options(ClientApplication::all()
                         ->map(function ($mp) {
                             $mp->title = "{$mp->id} - {$mp->title}";
@@ -50,7 +50,7 @@ class ClientRegisterCollectionResource extends Resource
                     ->columnSpanFull()
                     ->searchable(),
                 KeyValue::make('collected')
-                    ->label("Dados de registro")
+                    ->label(__('manager.client_register_collection_resource.form.input.collected'))
                     ->deletable()
                     ->columnSpanFull()
             ]);
@@ -61,18 +61,18 @@ class ClientRegisterCollectionResource extends Resource
         return $table
             ->groups([
                 Group::make('application.title')
-                    ->label('Aplicação'),
+                    ->label(__('manager.client_register_collection_resource.table.application')),
                 Group::make('created_at')
-                    ->label('Data do registro')
+                    ->label(__('manager.client_register_collection_resource.table.created_at'))
                     ->getTitleFromRecordUsing(fn($record): string => date('d/m/Y', strtotime($record->created_at))),
             ])
             ->columns([
                 TextColumn::make('id')
-                    ->label('#ID')
+                    ->label(__('manager.client_register_collection_resource.table.id'))
                     ->sortable(),
                 TextColumn::make('application.title')
-                    ->label('Aplicação')
-                    ->default("Aplicação deletada")
+                    ->label(__('manager.client_register_collection_resource.table.application'))
+                    ->default(__('manager.client_register_collection_resource.table._defaults.application'))
                     ->icon(function ($record) {
                         if (!isset($record->application)) {
                             return "heroicon-s-x-circle";
@@ -89,7 +89,7 @@ class ClientRegisterCollectionResource extends Resource
                     })
                     ->description(function ($record) {
                         if (!isset($record->application)) {
-                            return "Descrição indisponível";
+                            return __('manager.client_register_collection_resource.table._descriptions.application');
                         }
 
                         if (strlen($record->application->description) > 35) {
@@ -99,7 +99,7 @@ class ClientRegisterCollectionResource extends Resource
                         return $record->application->description;
                     }),
                 TextColumn::make('precollected')
-                    ->label('Precoleta de dados')
+                    ->label(__('manager.client_register_collection_resource.table.precollected'))
                     ->alignCenter()
                     ->getStateUsing(function ($record) {
                         $result = null;
@@ -116,14 +116,14 @@ class ClientRegisterCollectionResource extends Resource
                         }
 
                         if (!isset($result)) {
-                            $result = "Sem dados Precoletados!";
+                            $result = __('manager.client_register_collection_resource.table._defaults.precollected');
                         }
 
                         return $result;
                     })
                     ->limit(35),
                 TextColumn::make('itens')
-                    ->label('Itens coletados')
+                    ->label(__('manager.client_register_collection_resource.table.itens'))
                     ->color('primary')
                     ->alignCenter()
                     ->badge()
@@ -132,7 +132,8 @@ class ClientRegisterCollectionResource extends Resource
                         return count(array_values($record->collected ?? []));
                     }),
                 TextColumn::make('created_at')
-                    ->label('Data do reg.')
+                    ->label(__('manager.client_register_collection_resource.table.created_at'))
+                    ->dateTime(__('manager.client_register_collection_resource.table._mask.created_at'))
             ])
             ->filters([
                 //

@@ -245,5 +245,31 @@ return [
                 'html' => 'HTML code'
             ]
         ]
+    ],
+    'client_register_collection_resource' => [
+        'table' => [
+            'id' => '#ID',
+            'application' => 'Application',
+            'precollected' => 'Data precollected',
+            'itens' => 'Collected itens',
+            'created_at' => 'Register date',
+            '_defaults' => [
+                'application' => 'Application deleted',
+                'precollected' => 'No data'
+            ],
+            '_descriptions' => [
+                'application' => 'Uknow description'
+            ],
+            '_mask' => [
+                'created_at' => 'Y-m-d H:i'
+            ]
+        ],
+        'form' => [
+            'input' => [
+                'client_application_id' => 'Client application',
+                'collected' => 'Collected Data'
+            ]
+        ]
     ]
+
 ];

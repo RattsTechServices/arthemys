@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\UpdaterControl;
+use App\Models\SoftwareUpdate;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -21,6 +22,8 @@ class UpdateSoftware extends Command
         $ARTHEMYS_UPDATER_PROVIDER  = env('ARTHEMYS_UPDATER_PROVIDER');
         
         $this->repoUrl  = "{$ARTHEMYS_UPDATER_SOURCE}/repos/{$ARTHEMYS_UPDATER_PROVIDER}/releases";
+
+        $details = UpdaterControl::getRepoDetails($this->repoUrl);
 
         $version = $this->argument('version') ?? UpdaterControl::getLatestVersion($this->repoUrl);
         if (!$version) {
@@ -50,6 +53,16 @@ class UpdateSoftware extends Command
         UpdaterControl::copyFiles($extractPath);
         
         File::delete($zipPath);
+
+        SoftwareUpdate::create([
+            'version'       => $version,
+            'reliase'       => $details[0]['name'],
+            'size'          => $details[0]['assets'][0]['size'],
+            'repository'    => $ARTHEMYS_UPDATER_PROVIDER,
+            'artefact'      => $zipUrl,
+            'extra'         => $details
+        ]);
+
         $this->info("Atualização para versão $version concluída com sucesso!");
     }
 }

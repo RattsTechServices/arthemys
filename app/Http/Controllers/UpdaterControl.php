@@ -10,6 +10,15 @@ use ZipArchive;
 
 class UpdaterControl extends Controller
 {
+
+    public static function getRepoDetails($repoUrl){
+        $response = Http::withHeaders(['User-Agent' => 'Laravel-Updater'])->get($repoUrl);
+        if ($response->successful()) {
+            return $response->json();
+        }
+        return null;
+    }
+
     public static function getLatestVersion($repoUrl)
     {
         $response = Http::withHeaders(['User-Agent' => 'Laravel-Updater'])->get($repoUrl);
