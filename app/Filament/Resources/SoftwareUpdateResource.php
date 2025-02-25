@@ -98,6 +98,13 @@ class SoftwareUpdateResource extends Resource
                 TextColumn::make('created_at')
                     ->label(__('manager.software_update_resources.table.created_at'))
                     ->dateTime(__('manager.software_update_resources.table._masks.created_at'))
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->alignCenter()
+                    ->sortable(),
+                TextColumn::make('updated_at')
+                    ->label(__('manager.software_update_resources.table.updated_at'))
+                    ->dateTime(__('manager.software_update_resources.table._masks.updated_at'))
                     ->alignCenter()
                     ->sortable(),
             ])

@@ -30,7 +30,8 @@ class ClientApplicationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-c-cube';
 
-    public static function getNavigationLabel(): string {
+    public static function getNavigationLabel(): string
+    {
         return __('manager.menu_applications.plural');
     }
 
@@ -44,7 +45,7 @@ class ClientApplicationResource extends Resource
         return $form
             ->schema([
                 Select::make('user_id')
-                    ->label('Selecionar Usuario')
+                    ->label(__('manager.client_application_resource.form.input.user_id'))
                     ->options(User::all()
                         ->map(function ($mp) {
                             $mp->name = "{$mp->id} - {$mp->name}, {$mp->email}";
@@ -58,36 +59,36 @@ class ClientApplicationResource extends Resource
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug_title', Str::slug($state)))
-                    ->label('Titulo da aplicação')
-                    ->placeholder('Nome / Titulo / Rótulo da aplicação'),
+                    ->label(__('manager.client_application_resource.form.input.title'))
+                    ->placeholder(__('manager.client_application_resource.form.placeholder.title')),
                 TextInput::make('slug_title')
                     ->required()
-                    ->label('apelido (sem espaços)')
-                    ->placeholder('Nome / Rótulo da aplicação'),
+                    ->label(__('manager.client_application_resource.form.input.slug_title'))
+                    ->placeholder(__('manager.client_application_resource.form.placeholder.slug_title')),
                 Textarea::make('description')
                     ->required()
                     ->columnSpanFull()
-                    ->label('Descrição')
-                    ->placeholder('Breve descrição dobre a aplicação'),
+                    ->label(__('manager.client_application_resource.form.input.description'))
+                    ->placeholder(__('manager.client_application_resource.form.placeholder.description')),
                 TextInput::make('callback')
-                    ->label('url de retorno')
-                    ->placeholder('https://site.com/login')
+                    ->label(__('manager.client_application_resource.form.input.callback'))
+                    ->placeholder(__('manager.client_application_resource.form.placeholder.callback'))
                     ->columnSpanFull(),
                 TextInput::make('url')
                     ->required()
-                    ->label('URL')
-                    ->placeholder('URL da sua aplicação web'),
+                    ->label(__('manager.client_application_resource.form.input.url'))
+                    ->placeholder(__('manager.client_application_resource.form.placeholder.url')),
                 TextInput::make('webhookie')
-                    ->label('URL do webhookie de resposta da aplicação')
-                    ->placeholder('https://domain.com/api/v1'),
+                    ->label(__('manager.client_application_resource.form.input.webhookie'))
+                    ->placeholder(__('manager.client_application_resource.form.placeholder.webhookie')),
                 Select::make('status')
-                    ->label('Status da aplicação')
+                    ->label(__('manager.client_application_resource.form.input.status'))
                     ->default(1)
                     ->required()
                     ->options(['desativado', 'ativado']),
                 Select::make('condition')
                     ->default('aproved')
-                    ->label('Condição da conta')
+                    ->label(__('manager.client_application_resource.form.input.condition'))
                     ->required()
                     ->options([
                         'aproved' => "Aprovado",
@@ -104,27 +105,27 @@ class ClientApplicationResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->label('#ID')
+                    ->label(__('manager.client_application_resource.table.id'))
                     ->sortable(),
                 ImageColumn::make('logo_light')
-                    ->alignCenter()
+                    ->label(__('manager.client_application_resource.table.logo_light'))
                     ->default("static/images/empty-image.png")
-                    ->label("Logo / Imagem"),
+                    ->alignCenter(),
                 TextColumn::make('title')
-                    ->label('Titulo / Rótulo')
+                    ->label(__('manager.client_application_resource.table.title'))
                     ->alignCenter(),
                 TextColumn::make('slug_title')
                     ->color('primary')
-                    ->label('Apelido / Slug')
+                    ->label(__('manager.client_application_resource.table.slug_title'))
                     ->url(function ($record) {
-                        return env('APP_URL') . "/{$record->slug_title}/register";
+                        return env('APP_URL') . "/{$record->slug_title}";
                     })
                     ->openUrlInNewTab()
                     ->alignCenter(),
                 TextColumn::make('user.name')
-                    ->label('Usuario'),
+                    ->label(__('manager.client_application_resource.table.user')),
                 TextColumn::make('created_at')
-                    ->label('Data do Reg.')
+                    ->label(__('manager.client_application_resource.table.created_at'))
             ])
             ->filters([
                 //
