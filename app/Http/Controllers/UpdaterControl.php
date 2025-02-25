@@ -59,8 +59,9 @@ class UpdaterControl extends Controller
                 $mainFolder = $extractedFolders[0];
                 foreach (File::allFiles($mainFolder, true) as $file) {
                     $relativePath = str_replace($mainFolder, '', $file->getPathname());
+                    $objectivePath = ($extractPath . $relativePath);
                     if(!Str::contains($relativePath, '.DS_Store')){
-                        File::move($file->getPathname(), $extractPath . $relativePath);
+                        File::put($file->getPathname(), $objectivePath);
                     }
                 }
                 File::deleteDirectory($mainFolder);
