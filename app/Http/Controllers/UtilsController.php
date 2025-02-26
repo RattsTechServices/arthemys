@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendCollectedDataJob;
+use App\Models\ClientApplication;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 
 class UtilsController extends Controller
 {
@@ -49,5 +53,22 @@ class UtilsController extends Controller
         }
 
         return null; // Retorna null caso a entrada seja inválida
+    }
+
+    public static function exportToWebhookie($url, $data = []) {
+        $response = Http::withHeaders(['User-Agent' => 'Arthemys-Webhookie'])->post($url, $data);
+        if ($response->successful()) {
+            return "Sended data with success";
+        }
+
+        return throw new Exception("Error Processing Request");
+    }
+
+    public static function sendWebhookie(ClientApplication $clientApplication, array $data = []){
+        if($clientApplication->webhookie_type == 'request'){
+            static::exportToWebhookie($clientApplication->webhookie, $data);
+        } else if($clientApplication->webhookie_type == 'queue'){
+            SendCollectedDataJob::dispatch($clientApplication->webhookie, $data);
+        }
     }
 }

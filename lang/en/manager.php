@@ -321,7 +321,14 @@ return [
                 'url' => 'URL',
                 'webhookie' => 'Webhookie',
                 'status' => 'Status',
-                'condition' => 'Condition'
+                'condition' => 'Condition',
+                'webhookie_type' => 'Webhookie Type',
+                '_options' => [
+                    'webhookie_type' => [
+                        'queue' => 'Queue',
+                        'request' => 'Request'
+                    ]
+                ]
             ],
             'placeholder' => [
                 'user_id' => 'Select user',

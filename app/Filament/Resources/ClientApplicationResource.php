@@ -8,6 +8,7 @@ use App\Models\ClientApplication;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -81,11 +82,17 @@ class ClientApplicationResource extends Resource
                 TextInput::make('webhookie')
                     ->label(__('manager.client_application_resource.form.input.webhookie'))
                     ->placeholder(__('manager.client_application_resource.form.placeholder.webhookie')),
-                Select::make('status')
-                    ->label(__('manager.client_application_resource.form.input.status'))
-                    ->default(1)
-                    ->required()
-                    ->options(['desativado', 'ativado']),
+                Group::make([
+                    Select::make('status')
+                        ->label(__('manager.client_application_resource.form.input.status'))
+                        ->default(1)
+                        ->required()
+                        ->options(['desativado', 'ativado']),
+                    Select::make('webhookie_type')
+                        ->label(__('manager.client_application_resource.form.input.webhookie_type'))
+                        ->options(__('manager.client_application_resource.form.input._options.webhookie_type'))
+                        ->required(),
+                ])->columns(2),
                 Select::make('condition')
                     ->default('aproved')
                     ->label(__('manager.client_application_resource.form.input.condition'))

@@ -8,7 +8,7 @@ class ClientApplication extends Model
 {
     protected $table = "client_applications";
     protected $fillable = [
-        'user_id', 'title', 'description', 'status', 'url', 'webhookie', 'logo_light', 'logo_dark', 'favicon', 'condition', 'slug_title', 'callback'
+        'user_id', 'title', 'description', 'status', 'url', 'webhookie', 'webhookie_type', 'logo_light', 'logo_dark', 'favicon', 'condition', 'slug_title', 'callback'
     ];
     
     protected $casts = [

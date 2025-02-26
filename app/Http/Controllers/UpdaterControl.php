@@ -14,7 +14,7 @@ class UpdaterControl extends Controller
 
     public static function getRepoDetails($repoUrl)
     {
-        $response = Http::withHeaders(['User-Agent' => 'Laravel-Updater'])->get($repoUrl);
+        $response = Http::withHeaders(['User-Agent' => 'Arthemys-Updater'])->get($repoUrl);
         if ($response->successful()) {
             return $response->json();
         }
@@ -23,7 +23,7 @@ class UpdaterControl extends Controller
 
     public static function getLatestVersion($repoUrl)
     {
-        $response = Http::withHeaders(['User-Agent' => 'Laravel-Updater'])->get($repoUrl);
+        $response = Http::withHeaders(['User-Agent' => 'Arthemys-Updater'])->get($repoUrl);
         if ($response->successful()) {
             return $response->json()[0]['tag_name'] ?? null;
         }
@@ -32,7 +32,7 @@ class UpdaterControl extends Controller
 
     public static function getReleaseZipUrl($version, $repoUrl)
     {
-        $response = Http::withHeaders(['User-Agent' => 'Laravel-Updater'])->get($repoUrl);
+        $response = Http::withHeaders(['User-Agent' => 'Arthemys-Updater'])->get($repoUrl);
         if ($response->successful()) {
             foreach ($response->json() as $release) {
                 if ($release['tag_name'] === $version) {

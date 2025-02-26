@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('logo_dark')->nullable();
             $table->text('favicon')->nullable();
             $table->enum('condition', ['aproved', 'canceled', 'pedding', 'blocked']);
+            $table->enum('webhookie_type', ['queue', 'request']);
             $table->timestamps();
         });
 
@@ -41,6 +42,7 @@ return new class extends Migration
             'url' => env('APP_URL'),
             'callback' => env('APP_URL') . "/arthemys",
             'webhookie' => env('APP_URL') . "/api/webhook",
+            'webhookie_type' => 'request',
             'logo_light' => "static/images/arthemys-logo-light.png",
             'logo_dark' => "static/images/arthemys-logo.png",
             'condition' => 'aproved'

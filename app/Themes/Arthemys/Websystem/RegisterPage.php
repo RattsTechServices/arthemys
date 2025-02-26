@@ -2,6 +2,7 @@
 
 namespace App\Themes\Arthemys\Websystem;
 
+use App\Http\Controllers\UtilsController;
 use App\Models\ClientApplication;
 use App\Models\ClientRegisterCollection;
 use App\Models\RegisterInput;
@@ -76,7 +77,7 @@ class RegisterPage extends Component
             $this->clientCollection = ClientRegisterCollection::where('session_id', $appClientSession)->first();
         }
         
-
+        /** Salva arquivos de imagem **/
         foreach($this->formData as $key => $data){
             if(is_file($data)){
                 $extension = $data->getClientOriginalExtension();
@@ -92,9 +93,12 @@ class RegisterPage extends Component
             }
         }
 
+        /** Atualizando dados pre-coletados **/
         $this->clientCollection->update([
             'collected' => $this->formData
         ]);
+
+        UtilsController::sendWebhookie($this->application, $this->formData);
 
         return $this->redirectRoute('success-page', ['slug' => $this->slug]);
     }

@@ -319,7 +319,14 @@ return [
                 'url' => 'URL',
                 'webhookie' => 'Webhookie',
                 'status' => 'Status',
-                'condition' => 'Condição'
+                'condition' => 'Condição',
+                'webhookie_type' => 'Tipo de Webhookie',
+                '_options' => [
+                    'webhookie_type' => [
+                        'queue' => 'Fila',
+                        'request' => 'Requisição'
+                    ]
+                ]
             ],
             'placeholder' => [
                 'user_id' => 'Selecione o usuário',

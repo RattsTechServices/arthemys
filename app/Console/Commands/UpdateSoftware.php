@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Controllers\UpdaterControl;
 use App\Models\SoftwareUpdate;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use ZipArchive;
@@ -66,6 +67,7 @@ class UpdateSoftware extends Command
             ]
         );
 
+        Artisan::call('migrate');
         $this->info("Atualização para versão $version concluída com sucesso!");
     }
 }
