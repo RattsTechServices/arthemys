@@ -38,9 +38,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        
         if (Schema::hasTable('system_configs')) {
             $SysConfig = SystemConfigs::first();
-            if(isset($SysConfig)){
+            if (isset($SysConfig)) {
                 if (in_array($SysConfig->image_controller, array_keys($this->IaImageDrivers))) {
                     Transformers::setup()
                         ->setImageDriver($this->IaImageDrivers[$SysConfig->image_controller])

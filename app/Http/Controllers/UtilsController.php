@@ -57,6 +57,7 @@ class UtilsController extends Controller
 
     public static function exportToWebhookie($url, $data = []) {
         $response = Http::withHeaders(['User-Agent' => 'Arthemys-Webhookie'])->post($url, $data);
+
         if ($response->successful()) {
             return "Sended data with success";
         }

@@ -16,7 +16,7 @@ class DriverControl extends Controller
     }
 
     /**
-     * Use driver for a jo
+     * Use driver for a job
      */
     public function use(string $driver) {
         $this->defaultDriver = $driver;

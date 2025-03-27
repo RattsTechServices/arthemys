@@ -23,34 +23,44 @@ class UnzipThemeController extends Controller
         }
 
         $slug = pathinfo($zipPath, PATHINFO_FILENAME);
-        $destination = base_path(".theme/{$slug}");
+        $namespace = ucfirst($slug);
+        $destination = base_path(".theme/{$slug}/{$slug}");
         $filesystem = new Filesystem();
         $filesystem->ensureDirectoryExists($destination);
 
         $zip->extractTo($destination);
         $zip->close();
 
-        static::verifyDepences("{$destination}/public/assets/{$slug}/manifest.json");
+        $dependences = "{$destination}/public/assets/{$namespace}/manifest.json";
 
-        $directories = [
-            "app/Themes/{$slug}",
-            "public/assets/{$slug}",
-            "app/View/Components/{$slug}",
-            "resources/views/themes/{$slug}",
-            "resources/views/components/{$slug}",
+        static::verifyDepences($dependences);
+
+        $directoriesUC = [
+            "app/Themes/{$namespace}",
+            "public/assets/{$namespace}",
+            "app/View/Components/{$namespace}",
+            "resources/views/themes/{$namespace}",
+            "resources/views/components/{$namespace}",
         ];
 
-        foreach ($directories as $dir) {
-            $sourcePath = "$destination/" . str_replace("{$slug}", '', $dir) . "{$slug}";
+        foreach ($directoriesUC as $dir) {
+            $sourcePath = "{$destination}/{$dir}";
+
             if ($filesystem->exists($sourcePath)) {
                 $filesystem->copyDirectory($sourcePath, base_path($dir));
             }
         }
 
-        $manifestFile = "assets/{$slug}/manifest.json";
+        $manifestUCFile = "assets/{$slug}/manifest.json";
 
-        if (file_exists(public_path($manifestFile))) {
-            return json_decode(file_get_contents(public_path($manifestFile)));
+        if (file_exists(public_path($manifestUCFile))) {
+            return json_decode(file_get_contents(public_path($manifestUCFile)));
+        }
+
+        $manifestLCFile = "assets/{$namespace}/manifest.json";
+
+        if (file_exists(public_path($manifestLCFile))) {
+            return json_decode(file_get_contents(public_path($manifestLCFile)));
         }
 
         return (object)[
@@ -70,7 +80,9 @@ class UnzipThemeController extends Controller
 
     public static function delete(string $slug)
     {
-        $directories = [
+        $slug = ucfirst($slug);
+
+        $directoriesUC = [
             "app/Themes/{$slug}",
             "public/assets/{$slug}",
             "app/View/Components/{$slug}",
@@ -78,7 +90,7 @@ class UnzipThemeController extends Controller
             "resources/views/components/{$slug}",
         ];
 
-        foreach ($directories as $dir) {
+        foreach ($directoriesUC as $dir) {
             File::deleteDirectory(base_path($dir));
         }
 
@@ -91,8 +103,9 @@ class UnzipThemeController extends Controller
         $manifest = json_decode($manifest);
         if(isset($manifest->dependes)){
             foreach ($manifest->dependes as $dependes) {
-                if (!file_exists(public_path("assets/{$dependes->slug}/manifest.json"))) {
-                    throw new Exception("Theme manifest file not found!");
+                $slug = ucfirst($dependes->slug);
+                if (!file_exists(public_path("assets/{$slug}/manifest.json"))) {
+                    throw new Exception("Dependence file not foud. Please install {$dependes->slug}@{$dependes->version} first!");
                 }
             }
         }
