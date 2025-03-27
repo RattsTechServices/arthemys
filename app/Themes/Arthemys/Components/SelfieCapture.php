@@ -31,6 +31,7 @@ class SelfieCapture extends Component
             $image = str_replace(' ', '+', $image);
             $imageName = 'storage/app/photos/selfie_' . time() . '.png';
             $iaImagePath = 'storage/app/photos/ia';
+            
             Storage::disk('public')->put($imageName, base64_decode($image));
 
             $itensToSend["{$this->name}_item"] = asset($imageName);
@@ -39,6 +40,7 @@ class SelfieCapture extends Component
             if($this->useIa){
                 $totalItensForString = "";
                 $useDriverFor = (new DriverControl)->use(SystemConfigs::first()->ia_detect_object_driver)->exec(public_path($imageName));
+
                 $itensToSend["{$this->name}_ia_object"] = $useDriverFor->object_output->path_to_image;
                 $itensToSend["{$this->name}_ia_moved_object"] = rename(storage_path("{$useDriverFor->object_output->path_to_image}/{$useDriverFor->object_output->image_name}"), public_path("{$iaImagePath}/{$useDriverFor->object_output->image_name}"));
                 $itensToSend["{$this->name}_ia_public_artefact"] = asset("{$iaImagePath}/{$useDriverFor->object_output->image_name}");
