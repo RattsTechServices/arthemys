@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendCollectedDataJob;
+use App\Models\ApplicationResponse;
 use App\Models\ClientApplication;
+use App\Models\ClientRegisterCollection;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -55,20 +57,34 @@ class UtilsController extends Controller
         return null; // Retorna null caso a entrada seja inválida
     }
 
-    public static function exportToWebhookie($url, $data = []) {
-        $response = Http::withHeaders(['User-Agent' => 'Arthemys-Webhookie'])->post($url, $data);
+    public static function exportToWebhookie($url, $data = [])
+    {
+        try {
+            $response = Http::withHeaders(['User-Agent' => 'Arthemys-Webhookie'])->post($url, $data);
 
-        if ($response->successful()) {
-            return "Sended data with success";
+            $clientRegister = ClientRegisterCollection::where('session_id', session()->id())->first();
+
+            if ($response->successful()) {
+                ApplicationResponse::create([
+                    'client_application_id' => $clientRegister->client_application_id,
+                    'client_register_collection_id' => $clientRegister->id,
+                    'content' => $response->body()
+                ]);
+
+                return "Sended data with success";
+            }
+
+            return throw new Exception("Error Processing Request Webhook {$url}");
+        } catch (\Throwable $th) {
+            return throw new Exception($th->getMessage());
         }
-
-        return throw new Exception("Error Processing Request");
     }
 
-    public static function sendWebhookie(ClientApplication $clientApplication, array $data = []){
-        if($clientApplication->webhookie_type == 'request'){
+    public static function sendWebhookie(ClientApplication $clientApplication, array $data = [])
+    {
+        if ($clientApplication->webhookie_type == 'request') {
             static::exportToWebhookie($clientApplication->webhookie, $data);
-        } else if($clientApplication->webhookie_type == 'queue'){
+        } else if ($clientApplication->webhookie_type == 'queue') {
             SendCollectedDataJob::dispatch($clientApplication->webhookie, $data);
         }
     }
